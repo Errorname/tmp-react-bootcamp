@@ -17,8 +17,8 @@ function Tweets() {
       Hello Bootcampers!
     </h1>
     <div>
-      {tweets.map((tweet) => (
-        <Tweet key={tweet.id} id={tweet.id} />
+      {Object.keys(tweets).map((id) => (
+        <Tweet key={id} id={id} />
       ))}
     </div>
     { opened

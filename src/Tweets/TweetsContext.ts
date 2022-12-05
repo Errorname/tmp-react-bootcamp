@@ -1,29 +1,39 @@
-import { createContext, useContext } from 'react';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface Tweet {
   id: string;
   pseudo: string;
-  avatar: string;
   content: string;
-  image?: string;
   likes: number;
 }
 
-interface ITweetContext {
-  tweets: Tweet[];
-  setTweets: (tweets: Tweet[]) => void;
+export const useTweetsQuery = () => {
+  const { data: tweets } = useQuery<Record<string, Tweet>>({
+    queryKey: ["tweets"],
+    queryFn: () => fetch("https://errorname.firebaseio.com/titi.json").then((res) => res.json()),
+  });
+
+  return tweets || {};
 }
 
-export const TweetsContext = createContext<ITweetContext>({
-  tweets: [],
-  setTweets: () => {},
-});
-
 export const useTweets = () => {
-  const { tweets, setTweets } =  useContext(TweetsContext);
+  const queryClient = useQueryClient();
+  const tweets = useTweetsQuery();
 
+  const { mutate } = useMutation({
+    mutationFn: async (tweet: Tweet) => {
+      await fetch("https://errorname.firebaseio.com/titi.json", {
+        method: "POST",
+        body: JSON.stringify(tweet),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tweets"]);
+    },
+  });
+  
   const addTweet = (tweet: Tweet) => {
-    setTweets([tweet, ...tweets]);
+    mutate(tweet);
   }
 
   return {
@@ -33,24 +43,32 @@ export const useTweets = () => {
 }
 
 export const useTweet = (id: string) => {
-  const { tweets, setTweets } = useContext(TweetsContext);
+  const queryClient = useQueryClient();
+  const tweets = useTweetsQuery();
 
-  const tweet = tweets.find((tweet) => tweet.id === id)!;
+  const { mutate } = useMutation({
+    mutationFn: async ({id, tweet}: { id: string, tweet: Partial<Tweet> }) => {
+      await fetch(`https://errorname.firebaseio.com/titi/${id}.json`, {
+        method: "PATCH",
+        body: JSON.stringify(tweet),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tweets"]);
+    },
+  });
 
   const likeTweet = () => {
-    setTweets(tweets.map((tweet) => {
-      if (tweet.id === id) {
-        return {
-          ...tweet,
-          likes: tweet.likes + 1,
-        };
+    mutate({
+      id,
+      tweet: {
+        likes: tweets[id].likes + 1,
       }
-      return tweet;
-    }));
+    });
   }
 
   return {
-    tweet,
+    tweet: tweets[id],
     likeTweet,
   }
 }
