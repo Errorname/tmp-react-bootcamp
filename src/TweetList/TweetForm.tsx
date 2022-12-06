@@ -1,9 +1,7 @@
-import { useState, useId } from 'react';
+import { useState } from 'react';
 import { useTweets } from './TweetsService';
 
 function TweetForm() {
-  const id = useId();
-
   const [pseudo, setPseudo] = useState('');
   const [content, setContent] = useState('');
 
@@ -14,7 +12,6 @@ function TweetForm() {
     <input type="text" placeholder="Pseudo" value={pseudo} onChange={(e) => setPseudo(e.target.value)} />
     <textarea placeholder="Content" value={content} onChange={(e) => setContent(e.target.value)} />
     <button onClick={() => addTweet({
-        id,
         pseudo,
         content,
         likes: 0,

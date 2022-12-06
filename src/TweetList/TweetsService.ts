@@ -21,7 +21,7 @@ export const useTweets = () => {
   const tweets = useTweetsQuery();
 
   const { mutate } = useMutation({
-    mutationFn: async (tweet: Tweet) => {
+    mutationFn: async (tweet: Omit<Tweet, 'id'>) => {
       await fetch("https://errorname.firebaseio.com/titi.json", {
         method: "POST",
         body: JSON.stringify(tweet),
@@ -32,7 +32,7 @@ export const useTweets = () => {
     },
   });
   
-  const addTweet = (tweet: Tweet) => {
+  const addTweet = (tweet: Omit<Tweet, 'id'>) => {
     mutate(tweet);
   }
 
