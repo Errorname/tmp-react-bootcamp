@@ -28,7 +28,6 @@ const rawTweets = [
 
 function App() {
   const [tweets, setTweets] = useState(rawTweets);
-  const [tweets2, setTweets2] = useState([]);
 
   return <>
     <TweetsContext.Provider value={{tweets, setTweets}}>
