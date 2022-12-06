@@ -33,7 +33,6 @@ function App() {
     <TweetsContext.Provider value={{tweets, setTweets}}>
       <Tweets />
     </TweetsContext.Provider>
-    <Tweets />
   </>
 }
 
