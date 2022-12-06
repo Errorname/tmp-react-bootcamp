@@ -1,5 +1,5 @@
 import React from 'react';
-import Tweets from './Tweets';
+import TweetList from './TweetList';
 import {
   QueryClient,
   QueryClientProvider,
@@ -10,7 +10,7 @@ const queryClient = new QueryClient()
 function App() {
   return <>
     <QueryClientProvider client={queryClient}>
-      <Tweets />
+      <TweetList />
     </QueryClientProvider>
   </>
 }

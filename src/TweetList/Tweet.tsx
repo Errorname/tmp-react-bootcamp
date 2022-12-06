@@ -1,5 +1,5 @@
 import LikeTweet from "./LikeTweet";
-import { useTweet } from "./TweetsContext";
+import { useTweet } from "./TweetsService";
 
 function Tweet({ id }: { id: string }) {  
   const { tweet } = useTweet(id);

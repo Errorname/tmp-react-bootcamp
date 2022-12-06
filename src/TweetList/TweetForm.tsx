@@ -1,5 +1,5 @@
 import { useState, useId } from 'react';
-import { useTweets } from './TweetsContext';
+import { useTweets } from './TweetsService';
 
 function TweetForm() {
   const id = useId();

@@ -1,4 +1,4 @@
-import { useTweet } from "./TweetsContext";
+import { useTweet } from "./TweetsService";
 
 function LikeTweet({ id }: { id: string }) {
   const { tweet, likeTweet } = useTweet(id); 

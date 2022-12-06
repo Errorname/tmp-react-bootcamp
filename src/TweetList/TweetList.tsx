@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Tweet from './Tweet';
 import TweetForm from './TweetForm';
-import { useTweets } from './TweetsContext';
+import { useTweets } from './TweetsService';
 
 function Tweets() {
   const [opened, setOpened] = useState(false);
